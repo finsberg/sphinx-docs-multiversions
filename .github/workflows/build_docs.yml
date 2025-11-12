@@ -15,7 +15,7 @@ jobs:
 
   build-main:
     runs-on: ubuntu-24.04
-    container: ghcr.io/fenics/dolfinx/lab:stable
+    container: ghcr.io/fenics/dolfinx/lab:nightly
     env:
       PUBLISH_DIR: ./_build
       PYVISTA_OFF_SCREEN: false
@@ -35,27 +35,40 @@ jobs:
   build-versions:
     needs: build-main
     runs-on: ubuntu-24.04
-    container: ghcr.io/fenics/dolfinx/lab:stable
+    container: ${{ matrix.container }}
+    
     env:
       PUBLISH_DIR: ./_build
       PYVISTA_OFF_SCREEN: false
       PYVISTA_JUPYTER_BACKEND: "html"
 
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - container: ghcr.io/fenics/dolfinx/lab:v0.9.0
+            ref: "v0.1.0"
+          - container: ghcr.io/fenics/dolfinx/lab:v0.10.0
+            ref: "v0.2.0"
+          
+
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+        with:
+          ref: ${{ matrix.ref }}
 
       - name: Install dependencies
         run: |
           python3 -m pip install ".[docs]"
 
       - name: Build docs
-        run: python3 -m sphinx -b html . ${{ env.PUBLISH_DIR }}
+        run: python3 -m sphinx -b html . ${{ env.PUBLISH_DIR }}/${{ matrix.ref }}
 
      
 
   upload:
-    needs: build-main
+    needs: build-versions
     runs-on: ubuntu-24.04
     steps:
       - name: Upload artifact

@@ -21,7 +21,7 @@ jobs:
     uses: ./.github/workflows/build_docs.yml
 
   deploy:
-    needs: upload
+    needs: build
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
