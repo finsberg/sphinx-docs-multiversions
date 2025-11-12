@@ -4,6 +4,7 @@
 
 import package
 
+print("Package version:", package.__version__)
 package.compute()
 
 

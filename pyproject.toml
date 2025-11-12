@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "package"
 version = "0.3.0.dev0"
-description = "Dummpy package for testing."
+description = "Dummy package for testing."
 authors = [{name = "Henrik Finsberg", email = "henriknf@simula.no"}]
 license = {text = "MIT"}
 requires-python = ">=3.10"
