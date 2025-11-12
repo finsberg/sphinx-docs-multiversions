@@ -4,9 +4,11 @@ from importlib.metadata import metadata
 meta = metadata("package")
 __version__ = meta["Version"]
 __author__ = meta["Author-email"]
-__license__ = meta["license-expression"]
+__license__ = meta["License"]
 __email__ = meta["Author-email"]
 __program_name__ = meta["Name"]
+
+breakpoint()
 
 
 def compute():
