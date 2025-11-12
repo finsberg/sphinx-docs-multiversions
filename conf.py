@@ -74,7 +74,7 @@ html_theme_options = {
     "primary_sidebar_end": ["version-switcher"],
     "switcher": {
         "json_url": "https://finsberg.github.io/sphinx-docs-multiversions/_static/version_switcher.json",
-        "version_match": "0.2.0.dev0",
+        "version_match": "0.3.0.dev0",
     },
     "show_version_warning_banner": True,
 }
