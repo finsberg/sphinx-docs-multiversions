@@ -33,8 +33,12 @@ jobs:
         run: python3 -m sphinx -b html . ${{ env.PUBLISH_DIR }}
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
+        # Use the standard upload-artifact action
+        uses: actions/upload-artifact@v4
         with:
+          # Give it a unique name
+          name: pages-main
+          # This path contains the root site (e.g., /index.html)
           path:  ${{ env.PUBLISH_DIR }}
 
   build-versions:
@@ -72,6 +76,42 @@ jobs:
         
 
       - name: Upload artifact
+        # Use the standard upload-artifact action
+        uses: actions/upload-artifact@v4
+        with:
+          # Give each matrix job's artifact a unique name
+          name: pages-${{ matrix.ref }}
+          # Uploading the parent _build directory preserves the
+          # subdirectory structure (e.g., /v0.1.0/index.html)
+          path:  ${{ env.PUBLISH_DIR }}
+
+
+  combine-artifacts:
+    name: Combine Artifacts
+    # This job runs after all builds are complete
+    needs: [build-main, build-versions]
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Create final artifact directory
+        run: mkdir ./pages-artifact
+
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          # Download all artifacts from this workflow run
+          # into the 'pages-artifact' directory.
+          # The download action will merge the contents.
+          path: ./pages-artifact
+
+      - name: Check final directory contents
+        run: |
+          echo "Final artifact contents:"
+          ls -R ./pages-artifact
+
+      - name: Upload final pages artifact
+        # This is the *only* job that uploads the special 'github-pages'
+        # artifact, which 'deploy-pages' will look for.
         uses: actions/upload-pages-artifact@v4
         with:
-          path:  ${{ env.PUBLISH_DIR }}
+          path: ./pages-artifact
