@@ -8,8 +8,6 @@ __license__ = meta["License"]
 __email__ = meta["Author-email"]
 __program_name__ = meta["Name"]
 
-breakpoint()
-
 
 def compute():
     print("Computing...")
