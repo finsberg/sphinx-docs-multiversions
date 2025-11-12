@@ -6,12 +6,6 @@
 author = "Henrik Finsberg"
 
 
-import package
-import re
-
-version = re.sub(r"\.dev.*$", r".dev", package.__version__)
-release = version
-
 # bibtex_bibfiles = ["docs/refs.bib"]
 codeautolink_concat_default = True
 comments_config = {"hypothesis": False, "utterances": False}
@@ -41,7 +35,6 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
-    # "sphinxcontrib.bibtex",
     "sphinx_codeautolink",
     "sphinx_multitoc_numbering",
 ]
@@ -65,7 +58,7 @@ html_theme_options = {
         "deepnote_url": "",
     },
     "path_to_docs": "",
-    "repository_url": "https://github.com/finsberg/fenicsx-pulse",
+    "repository_url": "https://github.com/finsberg/sphinx-docs-multiversions",
     "repository_branch": "main",
     "extra_footer": "",
     "home_page_in_toc": True,
@@ -78,11 +71,10 @@ html_theme_options = {
     "use_repository_button": True,
     "use_edit_page_button": False,
     "use_issues_button": True,
-    "navbar_end": ["version-switcher", "theme-switcher", "navbar-icon-links"],
-    "navbar_persistent": [],
+    "primary_sidebar_end": ["version-switcher"],
     "switcher": {
         "json_url": "https://finsberg.github.io/sphinx-docs-multiversions/_static/version_switcher.json",
-        "version_match": version,
+        "version_match": "0.2.0.dev0",
     },
     "show_version_warning_banner": True,
 }
