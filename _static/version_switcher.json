@@ -1,4 +1,14 @@
-[   
+[   {
+        "name": "development",
+        "version": "development",
+        "url": "https://finsberg.github.io/sphinx-docs-multiversions"
+    }, 
+    {
+        "name": "0.2.0",
+        "version":"0.2.0",
+        "preferred": true,
+        "url": "https://finsberg.github.io/sphinx-docs-multiversions/v0.2.0/"
+    },
     {
         "name": "0.1.0",
         "version": "0.1.0",
