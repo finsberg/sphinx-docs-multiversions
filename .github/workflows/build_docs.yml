@@ -93,16 +93,41 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Create final artifact directory
-        run: mkdir ./pages-artifact
+      - name: Create download directory
+        run: mkdir ./downloads
 
       - name: Download all build artifacts
         uses: actions/download-artifact@v4
         with:
-          # Download all artifacts from this workflow run
-          # into the 'pages-artifact' directory.
-          # The download action will merge the contents.
-          path: ./pages-artifact
+          # This downloads all artifacts into subdirectories
+          # e.g., ./downloads/pages-main, ./downloads/pages-v0.1.0
+          path: ./downloads
+
+      - name: Check downloaded contents
+        run: |
+          echo "Downloaded contents:"
+          ls -R ./downloads
+
+      - name: Create final artifact directory
+        run: mkdir ./pages-artifact
+
+      - name: Move main docs to root
+        # Move contents of 'pages-main' to the root
+        # shopt -s dotglob ensures hidden files (like .nojekyll) are moved
+        run: |
+          shopt -s dotglob
+          mv ./downloads/pages-main/* ./pages-artifact/
+          
+      - name: Move versioned docs to subdirectories
+        # Find all other 'pages-v*' directories and move their contents
+        # (which is the versioned folder itself) into the root.
+        run: |
+          shopt -s dotglob
+          for dir in ./downloads/pages-v*; do
+            # Move the contents of the download dir (e.g., the 'v0.1.0' folder)
+            # into the final artifact directory
+            mv "$dir"/* ./pages-artifact/
+          done
 
       - name: Check final directory contents
         run: |
