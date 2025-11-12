@@ -32,6 +32,11 @@ jobs:
       - name: Build docs
         run: python3 -m sphinx -b html . ${{ env.PUBLISH_DIR }}
 
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path:  ${{ env.PUBLISH_DIR }}
+
   build-versions:
     needs: build-main
     runs-on: ubuntu-24.04
@@ -64,14 +69,9 @@ jobs:
 
       - name: Build docs
         run: python3 -m sphinx -b html . ${{ env.PUBLISH_DIR }}/${{ matrix.ref }}
+        
 
-     
-
-  upload:
-    needs: build-versions
-    runs-on: ubuntu-24.04
-    steps:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: ${{ env.PUBLISH_DIR }}
+          path:  ${{ env.PUBLISH_DIR }}/${{ matrix.ref }}
