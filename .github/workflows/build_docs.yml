@@ -126,7 +126,7 @@ jobs:
           for dir in ./downloads/pages-v*; do
             # Move the contents of the download dir (e.g., the 'v0.1.0' folder)
             # into the final artifact directory
-            mv "$dir"/* ./pages-artifact/
+            mv "$dir"/v* ./pages-artifact/
           done
 
       - name: Check final directory contents
